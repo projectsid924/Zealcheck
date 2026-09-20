@@ -17,11 +17,14 @@ type TodoState = {
   isLoading: boolean;
 };
 
+export type TodoEdits = { title: string; dueDate?: string; priority?: Priority };
+
 type Action =
   | { type: 'hydrate'; todos: Todo[] }
   | { type: 'add'; todo: Todo }
   | { type: 'toggle'; id: string }
-  | { type: 'delete'; id: string };
+  | { type: 'delete'; id: string }
+  | { type: 'update'; id: string; edits: TodoEdits };
 
 function reducer(state: TodoState, action: Action): TodoState {
   switch (action.type) {
@@ -36,6 +39,11 @@ function reducer(state: TodoState, action: Action): TodoState {
       };
     case 'delete':
       return { ...state, todos: state.todos.filter((t) => t.id !== action.id) };
+    case 'update':
+      return {
+        ...state,
+        todos: state.todos.map((t) => (t.id === action.id ? { ...t, ...action.edits } : t)),
+      };
     default:
       return state;
   }
@@ -47,6 +55,7 @@ type TodoContextValue = {
   addTodo: (title: string, opts?: { dueDate?: string; priority?: Priority }) => void;
   toggleTodo: (id: string) => void;
   deleteTodo: (id: string) => void;
+  updateTodo: (id: string, edits: TodoEdits) => void;
 };
 
 const TodoContext = createContext<TodoContextValue | undefined>(undefined);
@@ -96,9 +105,15 @@ export function TodoProvider({ children, onComplete }: TodoProviderProps) {
 
   const deleteTodo = (id: string) => dispatch({ type: 'delete', id });
 
+  const updateTodo = (id: string, edits: TodoEdits) => {
+    const title = edits.title.trim();
+    if (!title) return;
+    dispatch({ type: 'update', id, edits: { ...edits, title } });
+  };
+
   return (
     <TodoContext.Provider
-      value={{ todos: state.todos, isLoading: state.isLoading, addTodo, toggleTodo, deleteTodo }}
+      value={{ todos: state.todos, isLoading: state.isLoading, addTodo, toggleTodo, deleteTodo, updateTodo }}
     >
       {children}
     </TodoContext.Provider>

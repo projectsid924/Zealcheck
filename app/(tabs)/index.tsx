@@ -5,7 +5,7 @@ import { colors, spacing, typography } from '../../constants/theme';
 import { useTodos } from '../../context/TodoContext';
 
 export default function TodosScreen() {
-  const { todos, isLoading, addTodo, toggleTodo, deleteTodo } = useTodos();
+  const { todos, isLoading, addTodo, toggleTodo, deleteTodo, updateTodo } = useTodos();
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -16,7 +16,9 @@ export default function TodosScreen() {
           <FlatList
             data={todos}
             keyExtractor={(item) => item.id}
-            renderItem={({ item }) => <TodoItem todo={item} onToggle={toggleTodo} onDelete={deleteTodo} />}
+            renderItem={({ item }) => (
+              <TodoItem todo={item} onToggle={toggleTodo} onDelete={deleteTodo} onUpdate={updateTodo} />
+            )}
             ListEmptyComponent={<Text style={styles.empty}>No tasks yet — add one above to get started.</Text>}
             contentContainerStyle={todos.length === 0 ? styles.emptyContainer : undefined}
           />
