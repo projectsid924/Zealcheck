@@ -10,6 +10,12 @@ export const colors = {
   danger: '#DC2626',
 } as const;
 
+export const priorityColors = {
+  low: '#0EA5E9',
+  medium: '#D97706',
+  high: '#DC2626',
+} as const;
+
 export const spacing = {
   xs: 4,
   sm: 8,
