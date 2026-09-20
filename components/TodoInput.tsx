@@ -3,6 +3,7 @@ import { Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-na
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker, { type DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { colors, priorityColors, radius, spacing, typography } from '../constants/theme';
+import { QUICK_ADD_SUBJECTS } from '../constants/subjects';
 import { formatDueDate } from '../lib/date';
 import type { Priority } from '../context/TodoContext';
 
@@ -57,6 +58,18 @@ export function TodoInput({ onAdd }: Props) {
         <Pressable style={styles.addButton} onPress={submit} hitSlop={8}>
           <Ionicons name="add" size={22} color="#fff" />
         </Pressable>
+      </View>
+
+      <View style={styles.optionsRow}>
+        {QUICK_ADD_SUBJECTS.map((subject) => (
+          <Pressable
+            key={subject}
+            style={[styles.pill, styles.subjectPill]}
+            onPress={() => setValue(subject)}
+          >
+            <Text style={[styles.pillLabel, { color: colors.text }]}>{subject}</Text>
+          </Pressable>
+        ))}
       </View>
 
       <View style={styles.optionsRow}>
@@ -156,6 +169,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
   },
   pillLabel: { ...typography.caption, fontWeight: '600' },
+  subjectPill: { backgroundColor: colors.surface, borderColor: colors.border },
   dueDatePill: { flexDirection: 'row', alignItems: 'center' },
   pickerWrap: {
     marginTop: spacing.sm,
