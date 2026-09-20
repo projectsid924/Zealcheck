@@ -8,11 +8,11 @@ export type PetStage = {
 export const XP_PER_TASK = 10;
 
 export const PET_STAGES: PetStage[] = [
-  { name: 'Egg', emoji: '🥚', xpRequired: 0 },
-  { name: 'Hatchling', emoji: '🐣', xpRequired: 50 },
-  { name: 'Juvenile', emoji: '🐥', xpRequired: 150 },
-  { name: 'Adult', emoji: '🐓', xpRequired: 350 },
-  { name: 'Elder', emoji: '🦚', xpRequired: 700 },
+  { name: 'Newborn Pup', emoji: '🐾', xpRequired: 0 },
+  { name: 'Puppy', emoji: '🐶', xpRequired: 50 },
+  { name: 'Young Dog', emoji: '🐕', xpRequired: 150 },
+  { name: 'Loyal Dog', emoji: '🦮', xpRequired: 350 },
+  { name: 'Champion Dog', emoji: '🐩', xpRequired: 700 },
 ];
 
 export type PetProgress = {
