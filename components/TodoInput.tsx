@@ -8,9 +8,10 @@ import type { Priority } from '../context/TodoContext';
 
 type Props = {
   onAdd: (title: string, opts?: { dueDate?: string; priority?: Priority }) => void;
+  suggestions?: string[];
 };
 
-export function TodoInput({ onAdd }: Props) {
+export function TodoInput({ onAdd, suggestions = [] }: Props) {
   const [value, setValue] = useState('');
   const [priority, setPriority] = useState<Priority | undefined>(undefined);
   const [dueDate, setDueDate] = useState<Date | undefined>(undefined);
@@ -22,6 +23,14 @@ export function TodoInput({ onAdd }: Props) {
     setPriority(undefined);
     setDueDate(undefined);
   };
+
+  const matchingSuggestions =
+    value.trim().length > 0
+      ? suggestions
+          .filter((s) => s.toLowerCase().includes(value.trim().toLowerCase()))
+          .filter((s) => s.toLowerCase() !== value.trim().toLowerCase())
+          .slice(0, 5)
+      : [];
 
   return (
     <View style={styles.container}>
@@ -39,6 +48,17 @@ export function TodoInput({ onAdd }: Props) {
           <Ionicons name="add" size={22} color="#fff" />
         </Pressable>
       </View>
+
+      {matchingSuggestions.length > 0 ? (
+        <View style={styles.suggestionsBox}>
+          {matchingSuggestions.map((s) => (
+            <Pressable key={s} style={styles.suggestionRow} onPress={() => setValue(s)}>
+              <Ionicons name="time-outline" size={14} color={colors.textMuted} />
+              <Text style={styles.suggestionText}>{s}</Text>
+            </Pressable>
+          ))}
+        </View>
+      ) : null}
 
       <View style={styles.optionsRow}>
         {QUICK_ADD_SUBJECTS.map((subject) => (
@@ -99,4 +119,22 @@ const styles = StyleSheet.create({
   },
   pillLabel: { ...typography.caption, fontWeight: '600' },
   subjectPill: { backgroundColor: colors.surface, borderColor: colors.border },
+  suggestionsBox: {
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: radius.md,
+    marginTop: spacing.xs,
+    overflow: 'hidden',
+  },
+  suggestionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+  },
+  suggestionText: { ...typography.body, color: colors.text },
 });

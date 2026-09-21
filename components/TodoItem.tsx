@@ -68,7 +68,7 @@ export function TodoItem({ todo, onToggle, onDelete, onUpdate }: Props) {
   return (
     <View style={styles.row}>
       <Pressable onPress={() => onToggle(todo.id)} hitSlop={8}>
-        <View style={[styles.checkbox, todo.completed && styles.checkboxChecked]}>
+        <View style={[styles.checkbox, todo.completed && styles.checkboxCompleted]}>
           {todo.completed && <Ionicons name="checkmark" size={16} color="#fff" />}
         </View>
       </Pressable>
@@ -132,12 +132,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  checkboxChecked: {
-    backgroundColor: colors.primary,
+  checkboxCompleted: {
+    backgroundColor: colors.success,
+    borderColor: colors.success,
   },
   textContainer: { flex: 1 },
   title: { ...typography.body, color: colors.text },
-  titleCompleted: { color: colors.textMuted, textDecorationLine: 'line-through' },
+  titleCompleted: { color: colors.success, textDecorationLine: 'line-through' },
   metaRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginTop: 4 },
   metaItem: { flexDirection: 'row', alignItems: 'center', gap: 4 },
   priorityDot: { width: 8, height: 8, borderRadius: radius.full },
