@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { MealCard } from '../../components/MealCard';
 import { ProfileForm } from '../../components/ProfileForm';
 import { ProgressBar } from '../../components/ProgressBar';
+import { WalkingTracker } from '../../components/WalkingTracker';
 import { WaterTracker } from '../../components/WaterTracker';
 import { colors, spacing, typography } from '../../constants/theme';
 import { useHealth, type Meal } from '../../context/HealthContext';
@@ -21,8 +22,10 @@ export default function DailyScreen() {
     saveProfile,
     calorieTarget,
     waterTarget,
+    walkingTarget,
     todayLog,
     setWaterGlasses,
+    setWalkingMinutes,
     toggleMeal,
     setMealCalories,
     caloriesEaten,
@@ -64,6 +67,8 @@ export default function DailyScreen() {
             </View>
 
             <WaterTracker glasses={todayLog.waterGlasses} target={waterTarget} onChange={setWaterGlasses} />
+
+            <WalkingTracker minutes={todayLog.walkingMinutes} target={walkingTarget} onChange={setWalkingMinutes} />
 
             <Text style={styles.sectionHeading}>Meals</Text>
             {MEALS.map(({ key, label, icon }) => (

@@ -1,25 +1,36 @@
 import { createContext, useContext, useEffect, useMemo, useReducer, type ReactNode } from 'react';
 import { dateKey } from '../lib/date';
-import { calculateCalorieTarget, calculateWaterGlassTarget, type Profile } from '../lib/health';
+import {
+  calculateCalorieTarget,
+  calculateWaterGlassTarget,
+  DEFAULT_WALKING_TARGET_MINUTES,
+  type Profile,
+} from '../lib/health';
 import { loadJSON, saveJSON, STORAGE_KEYS } from '../lib/storage';
 
 export type Meal = 'breakfast' | 'lunch' | 'dinner';
 
 export type DailyLog = {
   waterGlasses: number;
+  walkingMinutes: number;
   meals: Record<Meal, { completed: boolean; calories: number | null }>;
 };
 
-type DailyLogsMap = Record<string, DailyLog>;
+type DailyLogsMap = Record<string, Partial<DailyLog>>;
 
-function emptyLog(): DailyLog {
+function emptyMeals(): DailyLog['meals'] {
   return {
-    waterGlasses: 0,
-    meals: {
-      breakfast: { completed: false, calories: null },
-      lunch: { completed: false, calories: null },
-      dinner: { completed: false, calories: null },
-    },
+    breakfast: { completed: false, calories: null },
+    lunch: { completed: false, calories: null },
+    dinner: { completed: false, calories: null },
+  };
+}
+
+function normalizeLog(raw: Partial<DailyLog> | undefined): DailyLog {
+  return {
+    waterGlasses: raw?.waterGlasses ?? 0,
+    walkingMinutes: raw?.walkingMinutes ?? 0,
+    meals: raw?.meals ?? emptyMeals(),
   };
 }
 
@@ -53,8 +64,10 @@ type HealthContextValue = {
   saveProfile: (profile: Profile) => void;
   calorieTarget: number | null;
   waterTarget: number;
+  walkingTarget: number;
   todayLog: DailyLog;
   setWaterGlasses: (glasses: number) => void;
+  setWalkingMinutes: (minutes: number) => void;
   toggleMeal: (meal: Meal) => void;
   setMealCalories: (meal: Meal, calories: number | null) => void;
   caloriesEaten: number;
@@ -87,7 +100,7 @@ export function HealthProvider({ children }: { children: ReactNode }) {
   }, [state.logs, state.isLoading]);
 
   const todayKey = dateKey(new Date());
-  const todayLog = state.logs[todayKey] ?? emptyLog();
+  const todayLog = normalizeLog(state.logs[todayKey]);
 
   const saveProfile = (profile: Profile) => dispatch({ type: 'setProfile', profile });
 
@@ -97,6 +110,10 @@ export function HealthProvider({ children }: { children: ReactNode }) {
 
   const setWaterGlasses = (glasses: number) => {
     updateTodayLog((log) => ({ ...log, waterGlasses: Math.max(0, glasses) }));
+  };
+
+  const setWalkingMinutes = (minutes: number) => {
+    updateTodayLog((log) => ({ ...log, walkingMinutes: Math.max(0, minutes) }));
   };
 
   const toggleMeal = (meal: Meal) => {
@@ -118,6 +135,7 @@ export function HealthProvider({ children }: { children: ReactNode }) {
     () => (state.profile ? calculateWaterGlassTarget(state.profile.weightKg) : DEFAULT_WATER_TARGET),
     [state.profile],
   );
+  const walkingTarget = DEFAULT_WALKING_TARGET_MINUTES;
 
   const caloriesEaten = (Object.keys(todayLog.meals) as Meal[]).reduce(
     (sum, meal) => sum + (todayLog.meals[meal].calories ?? 0),
@@ -132,8 +150,10 @@ export function HealthProvider({ children }: { children: ReactNode }) {
         saveProfile,
         calorieTarget,
         waterTarget,
+        walkingTarget,
         todayLog,
         setWaterGlasses,
+        setWalkingMinutes,
         toggleMeal,
         setMealCalories,
         caloriesEaten,

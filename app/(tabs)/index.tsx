@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { PetWidget } from '../../components/PetWidget';
 import { TodoInput } from '../../components/TodoInput';
 import { TodoItem } from '../../components/TodoItem';
 import { colors, radius, spacing, typography } from '../../constants/theme';
@@ -49,6 +50,7 @@ export default function TodosScreen() {
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <Text style={styles.header}>My Task</Text>
+        <PetWidget />
         <TodoInput onAdd={addTodo} suggestions={suggestions} />
 
         <View style={styles.sortRow}>

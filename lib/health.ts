@@ -36,3 +36,6 @@ const ML_PER_KG = 35;
 export function calculateWaterGlassTarget(weightKg: number): number {
   return Math.max(4, Math.round((weightKg * ML_PER_KG) / ML_PER_GLASS));
 }
+
+/** WHO general guideline: at least 30 minutes of walking/activity per day. */
+export const DEFAULT_WALKING_TARGET_MINUTES = 30;
