@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { PetAvatar } from '../../components/PetAvatar';
 import { XPBar } from '../../components/XPBar';
 import { colors, spacing, typography } from '../../constants/theme';

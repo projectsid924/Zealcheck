@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import DateTimePicker, { type DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { colors, priorityColors, radius, spacing, typography } from '../constants/theme';
 import { formatDueDate } from '../lib/date';
 import type { Priority } from '../context/TodoContext';
@@ -24,12 +24,10 @@ type Props = {
 export function TaskMetaFields({ priority, onPriorityChange, dueDate, onDueDateChange }: Props) {
   const [showPicker, setShowPicker] = useState(false);
 
-  const handleDateChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
+  const handleValueChange = (_event: unknown, selectedDate: Date) => {
+    onDueDateChange(selectedDate);
     if (Platform.OS === 'android') {
       setShowPicker(false);
-    }
-    if (event.type === 'set' && selectedDate) {
-      onDueDateChange(selectedDate);
     }
   };
 
@@ -82,7 +80,8 @@ export function TaskMetaFields({ priority, onPriorityChange, dueDate, onDueDateC
             value={dueDate ?? new Date()}
             mode="date"
             display={Platform.OS === 'ios' ? 'inline' : 'default'}
-            onChange={handleDateChange}
+            onValueChange={handleValueChange}
+            onDismiss={() => setShowPicker(false)}
             minimumDate={startOfToday()}
           />
           {Platform.OS === 'ios' ? (

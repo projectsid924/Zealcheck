@@ -27,6 +27,13 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
+        name="daily"
+        options={{
+          title: 'Daily',
+          tabBarIcon: ({ color, size }) => <Ionicons name="nutrition-outline" size={size} color={color} />,
+        }}
+      />
+      <Tabs.Screen
         name="pet"
         options={{
           title: 'Pet',

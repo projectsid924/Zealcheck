@@ -16,4 +16,6 @@ export async function saveJSON<T>(key: string, value: T): Promise<void> {
 export const STORAGE_KEYS = {
   todos: 'zealcheck:todos',
   pet: 'zealcheck:pet',
+  profile: 'zealcheck:profile',
+  dailyLogs: 'zealcheck:dailyLogs',
 } as const;

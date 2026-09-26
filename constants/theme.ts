@@ -1,19 +1,20 @@
+// Duolingo-inspired palette: Feather green, Macaw blue, Bee gold, Cardinal red.
 export const colors = {
-  background: '#FAFAF9',
+  background: '#F7F9FA',
   surface: '#FFFFFF',
-  border: '#E7E5E4',
-  text: '#1C1917',
-  textMuted: '#78716C',
-  primary: '#4F46E5',
-  primaryMuted: '#E0E7FF',
-  success: '#16A34A',
-  danger: '#DC2626',
+  border: '#E5E5E5',
+  text: '#3C3C3C',
+  textMuted: '#777777',
+  primary: '#58CC02',
+  primaryMuted: '#E1FFC7',
+  success: '#58CC02',
+  danger: '#FF4B4B',
 } as const;
 
 export const priorityColors = {
-  low: '#0EA5E9',
-  medium: '#D97706',
-  high: '#DC2626',
+  low: '#1CB0F6',
+  medium: '#E8A400',
+  high: '#FF4B4B',
 } as const;
 
 export const spacing = {

@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { FlatList, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { TodoInput } from '../../components/TodoInput';
 import { TodoItem } from '../../components/TodoItem';
 import { colors, radius, spacing, typography } from '../../constants/theme';
