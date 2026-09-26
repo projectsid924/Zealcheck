@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, radius, spacing, typography } from '../constants/theme';
-import { QUICK_ADD_SUBJECTS } from '../constants/subjects';
 import { TaskMetaFields } from './TaskMetaFields';
 import type { Priority } from '../context/TodoContext';
 
@@ -60,18 +59,6 @@ export function TodoInput({ onAdd, suggestions = [] }: Props) {
         </View>
       ) : null}
 
-      <View style={styles.optionsRow}>
-        {QUICK_ADD_SUBJECTS.map((subject) => (
-          <Pressable
-            key={subject}
-            style={[styles.pill, styles.subjectPill]}
-            onPress={() => setValue(subject)}
-          >
-            <Text style={[styles.pillLabel, { color: colors.text }]}>{subject}</Text>
-          </Pressable>
-        ))}
-      </View>
-
       <TaskMetaFields
         priority={priority}
         onPriorityChange={setPriority}
@@ -104,21 +91,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  optionsRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    gap: spacing.xs,
-    marginTop: spacing.sm,
-  },
-  pill: {
-    paddingHorizontal: spacing.sm + 2,
-    paddingVertical: spacing.xs,
-    borderRadius: radius.full,
-    borderWidth: 1.5,
-  },
-  pillLabel: { ...typography.caption, fontWeight: '600' },
-  subjectPill: { backgroundColor: colors.surface, borderColor: colors.border },
   suggestionsBox: {
     backgroundColor: colors.surface,
     borderWidth: 1,
