@@ -48,7 +48,7 @@ export default function TodosScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <Text style={styles.header}>Your Tasks</Text>
+        <Text style={styles.header}>My Task</Text>
         <TodoInput onAdd={addTodo} suggestions={suggestions} />
 
         <View style={styles.sortRow}>
