@@ -16,10 +16,11 @@ export function ProfileForm({ initialProfile, onSave, onCancel }: Props) {
   const [sex, setSex] = useState<Sex>(initialProfile?.sex ?? 'male');
   const [activityLevel, setActivityLevel] = useState<ActivityLevel>(initialProfile?.activityLevel ?? 'sedentary');
 
-  const weightNum = parseFloat(weight);
-  const heightNum = parseFloat(height);
-  const ageNum = parseInt(age, 10);
-  const isValid = weightNum > 0 && heightNum > 0 && ageNum > 0;
+  const parseNumber = (value: string) => parseFloat(value.trim().replace(',', '.'));
+  const weightNum = parseNumber(weight);
+  const heightNum = parseNumber(height);
+  const ageNum = Math.trunc(parseNumber(age));
+  const isValid = Number.isFinite(weightNum) && weightNum > 0 && Number.isFinite(heightNum) && heightNum > 0 && Number.isFinite(ageNum) && ageNum > 0;
 
   const save = () => {
     if (!isValid) return;
